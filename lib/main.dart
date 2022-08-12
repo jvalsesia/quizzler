@@ -48,9 +48,9 @@ class _QuizPageState extends State<QuizPage> {
       if (kDebugMode) {
         print(questionNumber);
         print(answer);
-        print(quizBrain.questions[questionNumber].answer);
+        print(quizBrain.getQuestionAnswer(questionNumber));
       }
-      if (answer == quizBrain.questions[questionNumber].answer) {
+      if (answer == quizBrain.getQuestionAnswer(questionNumber)) {
         scoreKeeper.add(
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -92,7 +92,7 @@ class _QuizPageState extends State<QuizPage> {
         );
       }
       questionNumber++;
-      if (questionNumber > quizBrain.questions.length - 1) {
+      if (questionNumber > quizBrain.getQuestionsLength() - 1) {
         questionNumber = 0;
       }
     });
@@ -110,7 +110,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                '${questionNumber + 1} - ${quizBrain.questions[questionNumber].question}',
+                '${questionNumber + 1} - ${quizBrain.getQuestionText(questionNumber)}',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
