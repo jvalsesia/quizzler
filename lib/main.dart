@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:quizzler/question.dart';
+import 'package:quizzler/quiz_brain.dart';
 
 void main() {
   runApp(const Quizzler());
@@ -35,33 +35,7 @@ class _QuizPageState extends State<QuizPage> {
   int scoreCount = 0;
   int questionNumber = 0;
   List<Column> scoreKeeper = [];
-  List<Question> questions = [
-    Question('Some cats are actually allergic to humans!', true),
-    Question('You can lead a cow down stairs but not up stairs!', false),
-    Question('Approximately one quarter of human bones are in the feet!', true),
-    Question('A slug\'s blood is green!', true),
-    Question('Buzz Aldrin\'s mother\'s maiden name was \"Moon\"!', true),
-    Question('It is illegal to pee in the Ocean in Portugal!', true),
-    Question(
-        'No piece of square dry paper can be folded in half more than 7 times!',
-        false),
-    Question(
-        'In London, UK, if you happen to die in the House of Parliament, you are technically entitled to a state funeral, because the building is considered too sacred a place!',
-        true),
-    Question(
-        'The loudest sound produced by any animal is 188 decibels! That animal is the African Elephant!',
-        false),
-    Question(
-        'The total surface area of two human lungs is approximately 70 square metres!',
-        true),
-    Question('Google was originally called \"Backrub\"!', true),
-    Question(
-        'Chocolate affects a dog\'s heart and nervous system; a few ounces are enough to kill a small dog!',
-        true),
-    Question(
-        'In West Virginia, USA, if you accidentally hit an animal with your car, you are free to take it home to eat!',
-        true),
-  ];
+  QuizBrain quizBrain = QuizBrain();
 
   void checkResponse(bool answer) {
     setState(() {
@@ -74,9 +48,9 @@ class _QuizPageState extends State<QuizPage> {
       if (kDebugMode) {
         print(questionNumber);
         print(answer);
-        print(questions[questionNumber].answer);
+        print(quizBrain.questions[questionNumber].answer);
       }
-      if (answer == questions[questionNumber].answer) {
+      if (answer == quizBrain.questions[questionNumber].answer) {
         scoreKeeper.add(
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -118,7 +92,7 @@ class _QuizPageState extends State<QuizPage> {
         );
       }
       questionNumber++;
-      if (questionNumber > questions.length - 1) {
+      if (questionNumber > quizBrain.questions.length - 1) {
         questionNumber = 0;
       }
     });
@@ -136,7 +110,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                '${questionNumber + 1} - ${questions[questionNumber].question}',
+                '${questionNumber + 1} - ${quizBrain.questions[questionNumber].question}',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
