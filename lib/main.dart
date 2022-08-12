@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:quizzler/question.dart';
 
 void main() {
   runApp(const Quizzler());
@@ -28,18 +29,11 @@ class QuizPage extends StatefulWidget {
   State<QuizPage> createState() => _QuizPageState();
 }
 
-class Question {
-  String question;
-  bool response;
-
-  Question(this.question, this.response);
-}
-
 class _QuizPageState extends State<QuizPage> {
   String question = '';
   String score = '0';
   int scoreCount = 0;
-  int index = 0;
+  int questionNumber = 0;
   List<Column> scoreKeeper = [];
   List<Question> questions = [
     Question('Some cats are actually allergic to humans', true),
@@ -69,27 +63,27 @@ class _QuizPageState extends State<QuizPage> {
         true),
   ];
 
-  void checkResponse(bool response) {
+  void checkResponse(bool answer) {
     setState(() {
-      if (index == 0) {
+      if (questionNumber == 0) {
         scoreKeeper = [];
         scoreCount = 0;
         score = scoreCount.toString();
       }
 
       if (kDebugMode) {
-        print(index);
-        print(response);
-        print(questions[index].response);
+        print(questionNumber);
+        print(answer);
+        print(questions[questionNumber].answer);
       }
-      if (response == questions[index].response) {
+      if (answer == questions[questionNumber].answer) {
         scoreKeeper.add(
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '${index + 1}',
+                '${questionNumber + 1}',
                 style: const TextStyle(
                   color: Colors.white,
                 ),
@@ -110,7 +104,7 @@ class _QuizPageState extends State<QuizPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '${index + 1}',
+                '${questionNumber + 1}',
                 style: const TextStyle(
                   color: Colors.white,
                 ),
@@ -123,9 +117,9 @@ class _QuizPageState extends State<QuizPage> {
           ),
         );
       }
-      index++;
-      if (index > questions.length - 1) {
-        index = 0;
+      questionNumber++;
+      if (questionNumber > questions.length - 1) {
+        questionNumber = 0;
       }
     });
   }
@@ -142,7 +136,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                '${index + 1} - ${questions[index].question}',
+                '${questionNumber + 1} - ${questions[questionNumber].question}',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
